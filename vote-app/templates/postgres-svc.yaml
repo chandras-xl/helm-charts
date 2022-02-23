@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db #Service name should be db else the result app fails to connect
+spec:
+  type: {{ .Values.ports.postgres.type }}
+  selector:
+{{ include "postgres-labels" . | indent 4}}
+  ports:
+  {{- with .Values.ports.postgres }}
+  - port: {{ .port }}
+    targetPort: {{ .targetPort }}
+  {{- end }}

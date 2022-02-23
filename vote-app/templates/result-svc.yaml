@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-result-svc
+spec:
+  type: {{ .Values.ports.result.type }}
+  selector:
+{{ include "result-labels" . | indent 4 }}
+  ports:
+  {{- with .Values.ports.result }}
+  - port: {{ .port }} 
+    targetPort: {{ .targetPort }}
+    nodePort: {{ .nodePort }}
+  {{- end }}

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-redis
+  labels:
+{{ include "redis-labels" . | indent 4 }}
+spec:
+  containers:
+  - name: redis
+    image: {{ .Values.image.redis.repository }}:{{ .Values.image.redis.tag }}
+    ports:
+      - containerPort: 6379
+    {{- if .Values.resources.redis.set }}
+    resources:
+      limits:
+      {{- with .Values.resources.redis.limits }}
+        memory: {{ .memory | default "128Mi" | quote }}
+        cpu: {{ .cpu | default "500m" | quote }}
+      {{- end }}
+    {{- end }}

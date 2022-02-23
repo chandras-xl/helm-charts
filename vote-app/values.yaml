@@ -1,0 +1,71 @@
+# Default values for vote-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Image details for the pods
+image:
+  vote:
+    repository: dockersamples/examplevotingapp_vote
+    tag: latest
+  result:
+    repository: dockersamples/examplevotingapp_result
+    tag: latest
+  redis:
+    repository: redis
+    tag: latest
+  postgres:
+    repository: postgres
+    tag: 9.4
+  worker:
+    repository: dockersamples/examplevotingapp_worker
+    tag: latest
+
+## If set is assigned with true then limits would be set on the pod
+## Posible values for set is "true" or "false"
+resources:
+  vote:
+    set: false
+    limits:
+      memory: 128Mi
+      cpu: 500m
+  result:
+    set: false
+    limits:
+      memory: 128Mi
+      cpu: 500m
+  redis:
+    set: false
+    limits:
+      memory: 256Mi
+      cpu: 500m
+  postgres:
+    set: false
+    limits:
+      memory: 256Mi
+      cpu: 500m
+  worker:
+    set: false
+    limits:
+      memory: 256Mi
+      cpu: 500m
+
+## Port allocation for pods
+ports:
+  vote:
+    type: NodePort
+    port: 80
+    targetPort: 80
+    nodePort: 30004
+  result:
+    type: NodePort
+    port: 80
+    targetPort: 80
+    nodePort: 30005
+  redis:
+    type: ClusterIP
+    port: 6379
+    targetPort: 6379
+  postgres:
+    type: ClusterIP
+    port: 5432
+    targetPort: 5432

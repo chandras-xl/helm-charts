@@ -1,0 +1,20 @@
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: {{ .Release.Name }}-vote
+  labels:
+{{ include "vote-labels" . | indent 4}}  
+spec:
+  containers:
+  - name: voting
+    image: {{ .Values.image.vote.repository }}:{{ .Values.image.vote.tag }}
+    ports:
+      - containerPort: 80
+    {{- if .Values.resources.vote.set }}
+    resources:
+      limits:
+      {{- with .Values.resources.vote.limits }}
+        memory: {{ .memory | default "128Mi" | quote }}
+        cpu: {{ .cpu | default "500m" | quote }}
+      {{- end }}
+    {{- end }}

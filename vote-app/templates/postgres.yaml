@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod 
+metadata:
+  name: {{ .Release.Name }}-postgres
+  labels:
+{{ include "postgres-labels" . | indent 4}}
+spec:
+  containers:
+    - name: postgresql
+      image: {{ .Values.image.postgres.repository }}:{{ .Values.image.postgres.tag }}
+      ports:
+        - containerPort: 5432
+      env:
+      - name: POSTGRES_USER
+        value: "postgres"
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: password
+            name: {{ .Release.Name }}-postgres-secret
+      - name: POSTGRES_HOST_AUTH_METHOD
+        value: trust
+      {{- if .Values.resources.postgres.set }}
+      resources:
+        limits:
+        {{- with .Values.resources.postgres.limits }}
+          memory: {{ .memory | quote }}
+          cpu: {{ .cpu | quote }}
+        {{- end }}
+      {{- end }}

@@ -1,0 +1,12 @@
+Thank you for installing demo-voting-app helm chart
+
+To access the app URL-
+
+Run below command to get vote-app url -
+minikube service {{ .Release.Name }}-vote-svc --namespace {{ .Release.Namespace }} --url
+
+Run below command to get result-app url -
+minikube service {{ .Release.Name }}-result-svc --namespace {{ .Release.Namespace }} --url
+
+Execute below command to get the postgres db password-
+kubectl get secret {{ .Release.Name }}-postgres-secret --namespace {{ .Release.Namespace }} -o jsonpath="{.data.password}" | base64 --decode; echo

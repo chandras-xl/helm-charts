@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-worker
+  labels:
+{{ include "worker-labels" . | indent 4}}
+spec:
+  containers:
+  - name: worker
+    image: {{ .Values.image.worker.repository }}:{{ .Values.image.worker.tag }}
+    {{- if .Values.resources.worker.set }}
+    resources:
+      limits:
+      {{- with .Values.resources.worker.limits }}
+        memory: {{ .memory | default "128Mi" | quote }}
+        cpu: {{ .memory | default "500m" | quote }}
+      {{- end }}
+    {{- end }}

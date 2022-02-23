@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}-result
+  labels:
+{{ include "result-labels" . | indent 4}}
+spec:
+  containers:
+  - name: result 
+    image: {{ .Values.image.result.repository }}:{{ .Values.image.result.tag }}
+    {{- if .Values.resources.result.set }}
+    resources:
+      limits:
+      {{- with .Values.resources.result.limits }}
+        memory: {{ .memory | default "128Mi" | quote }}
+        cpu: {{ .cpu | default "500m" | quote }}
+      {{- end }}
+    {{- end }}
+    ports:
+      - containerPort: 80
