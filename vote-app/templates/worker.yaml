@@ -12,7 +12,7 @@ spec:
     resources:
       limits:
       {{- with .Values.resources.worker.limits }}
-        memory: {{ .memory | default "128Mi" | quote }}
-        cpu: {{ .memory | default "500m" | quote }}
+        memory: {{ .memory | quote }}
+        cpu: {{ .memory | quote }}
       {{- end }}
     {{- end }}

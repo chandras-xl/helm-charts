@@ -14,7 +14,7 @@ spec:
     resources:
       limits:
       {{- with .Values.resources.vote.limits }}
-        memory: {{ .memory | default "128Mi" | quote }}
-        cpu: {{ .cpu | default "500m" | quote }}
+        memory: {{ .memory | quote }}
+        cpu: {{ .cpu | quote }}
       {{- end }}
     {{- end }}
