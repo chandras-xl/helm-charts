@@ -1,0 +1,5 @@
+Thank you for installing mysql helm chart
+
+Execute below command to get the mysql db password-
+kubectl get secret {{ .Release.Name }}-mysql-secret --namespace {{ .Release.Namespace }} -o jsonpath="{.data.password}" | base64 --decode; echo
+
